@@ -11,10 +11,10 @@ sem_t first_mutex; //mutex lock
 sem_t second_mutex;
 
 void *function1(void *ptr) {
-  sem_wait(&second_mutex); //Here thread-ONE is waiting for first_mutex. Since no one is using it thread-ONE locks the first_mutex
+  sem_wait(&first_mutex); //Here thread-ONE is waiting for first_mutex. Since no one is using it thread-ONE locks the first_mutex
   printf("Thread ONE acquired first_mutex\n");
   sleep(1); //This is the critical section of thread-ONE. Once thread-ONE is inside this critical section, thread-TWO cannot use it
-  sem_wait(&first_mutex); //Here thread-ONE is waiting on first_mutex. But, it is already locked by thread-TWO
+  sem_wait(&second_mutex); //Here thread-ONE is waiting on first_mutex. But, it is already locked by thread-TWO
   printf("Thread ONE acquired second_mutex\n");
   sem_post(&second_mutex);//release mutex lock
   printf("Thread ONE released second_mutex\n");
